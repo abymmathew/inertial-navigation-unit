@@ -89,19 +89,16 @@ func main() {
 				gpsLat = reader.GetLatitude()
 				gpsLon = reader.GetLongitude()
 				gpsAlt = reader.GetGPSAltitude()
-				distanceFromHome := flightTerms.GetDistance(
+				distanceFromHome := pilotMath.GetDistance(
 					home,
 					flightTerms.GeoPoint{
 						Latitude: gpsLat,
 						Longitude: gpsLon,
 					},
 				)
-				fmt.Printf("distance: %f\n", distanceFromHome)
 				if distanceFromHome > START_DISTANCE_METERS {
-					fmt.Printf("should write\n")
 					shouldWrite = true
 				} else {
-					fmt.Printf("should not write\n")
 					shouldWrite = false
 				}
 			}
