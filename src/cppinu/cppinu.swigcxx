@@ -1,0 +1,6 @@
+%module cppinu //name of the resulting GO package
+%{
+#include "rawInertialNavigationReader.h"
+%}
+
+%include "rawInertialNavigationReader.h"
