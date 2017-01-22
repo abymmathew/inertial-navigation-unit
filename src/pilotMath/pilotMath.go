@@ -156,6 +156,55 @@ func GetPointAhead(fromCoordinate flightTerms.GeoPoint, distance flightTerms.Met
     }
 }
 
+func PointPlusDistanceEast(fromCoordinate flightTerms.GeoPoint, distance flightTerms.Meters) flightTerms.GeoPoint {
+	return GetPointAhead(fromCoordinate, distance, 90.0)
+}
+
+func PointPlusDistanceNorth(fromCoordinate flightTerms.GeoPoint, distance flightTerms.Meters) flightTerms.GeoPoint {
+	return GetPointAhead(fromCoordinate, distance, 0.0)
+}
+
+func LatitudeToMeters(latitude float64) flightTerms.Meters {
+	distance := GetDistance(
+		flightTerms.GeoPoint{
+			Latitude: latitude,
+			Longitude: 0.0,
+		},
+		flightTerms.GeoPoint{
+			Latitude: 0.0,
+			Longitude: 0.0,
+		},
+	)
+	if latitude < 0 {
+		distance *= -1
+	}
+	return distance
+}
+
+func LongitudeToMeters(longitude float64) flightTerms.Meters {
+	distance := GetDistance(
+		flightTerms.GeoPoint{
+			Latitude: 0.0,
+			Longitude: longitude,
+		},
+		flightTerms.GeoPoint{
+			Latitude: 0.0,
+			Longitude: 0.0,
+		},
+	)
+	if longitude < 0 {
+		distance *= -1
+	}
+	return distance
+}
+
+func MetersToGeopoint(latAsMeters, lonAsMeters float64) flightTerms.GeoPoint {
+	point := flightTerms.GeoPoint{}
+	pointEast := PointPlusDistanceEast(point, lonAsMeters)
+	pointNorthEast := PointPlusDistanceNorth(pointEast, latAsMeters)
+	return pointNorthEast
+}
+
 func GetTimestamp() int32 {
     return int32(time.Now().Unix())
 }
