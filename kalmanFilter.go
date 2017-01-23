@@ -200,12 +200,12 @@ func main() {
             )
 			previousLon = data.GpsLon
 
-			predictedLon := kalmanFilter.GetLon()
-			predictedV := kalmanFilter.GetVelocityEast()
-
-			deltaT := data.Timestamp - initialSensorData.Timestamp 
 			fmt.Printf("just updated with lon %f\n", data.GpsLon)
         }
+		predictedLon := kalmanFilter.GetLon()
+		predictedV := kalmanFilter.GetVelocityEast()
+
+		deltaT := data.Timestamp - initialSensorData.Timestamp 
 		fmt.Printf("%f seconds in, Lon: %f, V(mph): %f, A: %f\n", deltaT, predictedLon, predictedV, float64(data.AbsEastAcc) * ACTUAL_GRAVITY)
     }
     fmt.Printf("got to end with no crash: %s\n", kalmanFilter)
